@@ -23,7 +23,7 @@ object PhotosModule {
 
     @Singleton
     @Provides
-    fun providePhotosRepository(dealsApi: PhotosApi): PhotosRepository {
-        return PhotosRepositoryImpl(dealsApi)
+    fun providePhotosRepository(photosApi: PhotosApi): PhotosRepository {
+        return PhotosRepositoryImpl(photosApi)
     }
 }
