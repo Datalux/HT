@@ -30,3 +30,14 @@ val subtitleStyle: TextStyle
             color = Color.onBackground
         )
     }
+
+val ctaStyle: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontFamily = FontFamily(Font(R.font.roboto_regular)),
+            fontWeight = FontWeight.Normal,
+            fontSize = 16.sp,
+            color = Color.onBackgroundSecondary
+        )
+    }

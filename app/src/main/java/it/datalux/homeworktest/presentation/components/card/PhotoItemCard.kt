@@ -1,5 +1,6 @@
 package it.datalux.homeworktest.presentation.components.card
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,14 +25,17 @@ import com.bumptech.glide.integration.compose.GlideImage
 import it.datalux.homeworktest.core.theme.backgroundSecondary
 import it.datalux.homeworktest.core.theme.subtitleStyle
 import it.datalux.homeworktest.core.theme.titleStyle
+import it.datalux.homeworktest.core.utils.debounceClickable
 import it.datalux.homeworktest.domain.entity.Photo
 import it.datalux.homeworktest.domain.entity.photoMock
+import it.datalux.homeworktest.presentation.common.head.PhotoHeadTitle
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PhotoItemCard(
     modifier: Modifier = Modifier,
-    photo: Photo
+    photo: Photo,
+    onPhotoClicked: () -> Unit = { }
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -42,39 +46,13 @@ fun PhotoItemCard(
     ) {
         Column {
             GlideImage(
+                modifier = modifier.debounceClickable { onPhotoClicked() },
                 model = photo.photoUrl,
                 contentScale = ContentScale.FillWidth,
                 contentDescription = "null",
-
             )
 
-            Row(
-                modifier = Modifier.padding(start = 16.dp, top = 10.dp, end = 16.dp, bottom = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                GlideImage(
-                    modifier = modifier.size(48.dp).clip(CircleShape),
-                    contentScale = ContentScale.Crop,
-                    model = photo.userPhotoUrl,
-                    contentDescription = photo.description
-                )
-
-                Column(
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = photo.userName,
-                        style = titleStyle
-                    )
-
-                    Text(
-                        text = photo.description,
-                        style = subtitleStyle,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-            }
+            PhotoHeadTitle(photo = photo, maxLines = 1)
         }
     }
 }
