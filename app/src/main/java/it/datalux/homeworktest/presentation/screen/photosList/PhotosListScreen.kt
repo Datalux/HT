@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import it.datalux.homeworktest.core.theme.background
@@ -29,6 +28,7 @@ import it.datalux.homeworktest.core.theme.titleStyle
 import it.datalux.homeworktest.data.photos.mock.PhotosMockRepositoryImpl
 import it.datalux.homeworktest.domain.entity.Photo
 import it.datalux.homeworktest.domain.usecase.PhotosUseCase
+import it.datalux.homeworktest.presentation.common.UIConstants
 import it.datalux.homeworktest.presentation.common.bar.SearchBar
 import it.datalux.homeworktest.presentation.components.card.PhotoItemCard
 import it.datalux.homeworktest.presentation.components.loading.CenteredLoading
@@ -77,13 +77,13 @@ fun PhotoListContent(
             .background(Color.Companion.background),
     ) {
 
-        SearchBar(modifier = Modifier.padding(start = 10.dp, top = 10.dp, end = 10.dp))
+        SearchBar(modifier = Modifier.padding(start = UIConstants.paddingSmall, top = UIConstants.paddingSmall, end = UIConstants.paddingSmall))
 
         if (photosList.isNotEmpty()) {
             LazyColumn(
                 Modifier
-                    .padding(all = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+                    .padding(all = UIConstants.paddingSmall),
+                verticalArrangement = Arrangement.spacedBy(UIConstants.paddingSmall),
                 state = listState
             ) {
 

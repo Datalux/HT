@@ -24,12 +24,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import it.datalux.homeworktest.R
 import it.datalux.homeworktest.core.theme.backgroundSecondary
 import it.datalux.homeworktest.core.theme.ctaStyle
 import it.datalux.homeworktest.core.theme.onBackgroundSecondary
 import it.datalux.homeworktest.core.utils.debounceClickable
+import it.datalux.homeworktest.presentation.common.UIConstants
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +45,7 @@ fun SearchBar(
         colors = CardDefaults.cardColors(
             containerColor = Color.backgroundSecondary,
         ),
-        shape = RoundedCornerShape(size = 28.dp)
+        shape = RoundedCornerShape(size = UIConstants.radiusLarge)
     ) {
         Row(
             modifier = modifier
@@ -84,8 +84,8 @@ fun SearchBar(
                 painter = painterResource(R.drawable.icon_search),
                 contentDescription = "Search",
                 modifier = Modifier
-                    .padding(end = 16.dp)
-                    .size(24.dp)
+                    .padding(end = UIConstants.paddingLarge)
+                    .size(UIConstants.iconSize)
                     .debounceClickable {
                         onSearch(text)
                     }

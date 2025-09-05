@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import it.datalux.homeworktest.R
@@ -23,6 +22,7 @@ import it.datalux.homeworktest.core.theme.background
 import it.datalux.homeworktest.core.utils.debounceClickable
 import it.datalux.homeworktest.domain.entity.Photo
 import it.datalux.homeworktest.domain.entity.photoMock
+import it.datalux.homeworktest.presentation.common.UIConstants
 import it.datalux.homeworktest.presentation.common.head.PhotoHeadTitle
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -49,9 +49,9 @@ fun PhotoDetailsScreen(
                 contentDescription = null,
                 modifier = modifier
                     .statusBarsPadding()
-                    .padding(start = 22.dp, end = 22.dp)
+                    .padding(start = UIConstants.horizontalPadding, end = UIConstants.horizontalPadding)
                     .align(Alignment.TopStart)
-                    .size(24.dp)
+                    .size(UIConstants.iconSize)
                     .debounceClickable { onBackClick() },
             )
         }

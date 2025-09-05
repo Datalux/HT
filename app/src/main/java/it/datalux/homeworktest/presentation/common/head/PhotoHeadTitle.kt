@@ -13,13 +13,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import it.datalux.homeworktest.core.theme.subtitleStyle
 import it.datalux.homeworktest.core.theme.titleStyle
 import it.datalux.homeworktest.domain.entity.Photo
 import it.datalux.homeworktest.domain.entity.photoMock
+import it.datalux.homeworktest.presentation.common.UIConstants
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -30,11 +30,11 @@ fun PhotoHeadTitle(
     ) {
 
     Row(
-        modifier = Modifier.padding(start = 16.dp, top = 10.dp, end = 16.dp, bottom = 10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        modifier = Modifier.padding(start = UIConstants.paddingLarge, top = UIConstants.paddingSmall, end = UIConstants.paddingLarge, bottom = UIConstants.paddingSmall),
+        horizontalArrangement = Arrangement.spacedBy(UIConstants.paddingSmall)
     ) {
         GlideImage(
-            modifier = modifier.size(48.dp).clip(CircleShape),
+            modifier = modifier.size(UIConstants.userPhotoIconSize).clip(CircleShape),
             contentScale = ContentScale.Crop,
             model = photo.userPhotoUrl,
             contentDescription = photo.description
