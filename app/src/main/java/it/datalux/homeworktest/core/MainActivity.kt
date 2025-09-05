@@ -3,8 +3,10 @@ package it.datalux.homeworktest.core
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import it.datalux.homeworktest.core.theme.HomeworkTestTheme
 import it.datalux.homeworktest.presentation.screen.main.MainScreen
@@ -17,6 +19,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -28,6 +29,7 @@ import it.datalux.homeworktest.core.theme.titleStyle
 import it.datalux.homeworktest.data.photos.mock.PhotosMockRepositoryImpl
 import it.datalux.homeworktest.domain.entity.Photo
 import it.datalux.homeworktest.domain.usecase.PhotosUseCase
+import it.datalux.homeworktest.presentation.common.bar.SearchBar
 import it.datalux.homeworktest.presentation.components.card.PhotoItemCard
 import it.datalux.homeworktest.presentation.components.loading.CenteredLoading
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -69,10 +71,13 @@ fun PhotoListContent(
             }
     }
 
-    Column(Modifier
-        .fillMaxSize()
-        .background(Color.Companion.background)
+    Column(modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .background(Color.Companion.background),
     ) {
+
+        SearchBar(modifier = Modifier.padding(start = 10.dp, top = 10.dp, end = 10.dp))
 
         if (photosList.isNotEmpty()) {
             LazyColumn(
@@ -83,7 +88,10 @@ fun PhotoListContent(
             ) {
 
                 items(photosList, key = { it.id }) { item ->
-                    PhotoItemCard(photo = item)
+                    PhotoItemCard(
+                        photo = item,
+                        onPhotoClicked = { onItemClick(item) }
+                    )
                 }
 
                 if (loading) {
