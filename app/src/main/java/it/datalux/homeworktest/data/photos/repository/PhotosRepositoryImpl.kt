@@ -38,5 +38,28 @@ class PhotosRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun search(
+        query: String,
+        reset: Boolean
+    ): Flow<Result<List<Photo>>> {
+        if (reset) paginator.reset()
+
+        return flow {
+            val response = api.search(
+                query = query,
+                page = paginator.nextPage,
+                perPage = MAX_PAGE_SIZE
+            )
+            if (response.isSuccessful) {
+                response.body()?.let { body ->
+                    emit(Result.success(body.results.map { it.toPhotoEntity() }))
+                }
+            } else {
+                paginator.previousPage
+                emit(Result.failure(Exception()))
+            }
+        }
+    }
+
 
 }

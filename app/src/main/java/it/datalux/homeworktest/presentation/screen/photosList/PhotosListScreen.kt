@@ -1,6 +1,7 @@
 package it.datalux.homeworktest.presentation.screen.photosList
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -50,6 +51,7 @@ fun PhotoListContent(
 ) {
     val photosList = photosListViewModel.photosList.distinctBy { it.id }
     val loading by photosListViewModel.loading.collectAsStateWithLifecycle()
+    val searchMode by photosListViewModel.searchMode.collectAsStateWithLifecycle()
 
     val listState = rememberLazyListState()
 
@@ -67,8 +69,12 @@ fun PhotoListContent(
             .distinctUntilChanged()
             .filter { it }
             .collect {
-                photosListViewModel.getPhotosList()
+                photosListViewModel.loadPhotos(loadMore = true)
             }
+    }
+
+    BackHandler(enabled = searchMode) {
+        photosListViewModel.onBackButtonClick()
     }
 
     Column(modifier = Modifier
@@ -77,7 +83,15 @@ fun PhotoListContent(
             .background(Color.Companion.background),
     ) {
 
-        SearchBar(modifier = Modifier.padding(start = UIConstants.paddingSmall, top = UIConstants.paddingSmall, end = UIConstants.paddingSmall))
+        SearchBar(
+            modifier = Modifier
+                .padding(
+                    start = UIConstants.paddingSmall,
+                    top = UIConstants.paddingSmall,
+                    end = UIConstants.paddingSmall
+                ),
+            onSearch = { photosListViewModel.loadPhotos(it) }
+        )
 
         if (photosList.isNotEmpty()) {
             LazyColumn(
@@ -123,6 +137,6 @@ fun PhotoListContent(
 @Preview(showBackground = true)
 fun PhotoListScreenPreview() {
     PhotoListScreen(
-        PhotosViewModel(PhotosUseCase(PhotosMockRepositoryImpl()))
+        PhotosViewModel(PhotosUseCase(PhotosMockRepositoryImpl()),)
     )
 }

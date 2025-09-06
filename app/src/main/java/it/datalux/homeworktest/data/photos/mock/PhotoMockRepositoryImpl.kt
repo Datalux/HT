@@ -15,4 +15,15 @@ class PhotosMockRepositoryImpl: PhotosRepository {
             )))
         }
     }
+
+    override suspend fun search(
+        query: String,
+        reset: Boolean
+    ): Flow<Result<List<Photo>>> {
+        return flow {
+            emit(Result.success(listOf(
+                photoMock,
+            )))
+        }
+    }
 }

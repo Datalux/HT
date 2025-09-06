@@ -8,4 +8,9 @@ interface PhotosRepository {
     suspend fun getPhotosList(
         reset: Boolean,
     ) : Flow<Result<List<Photo>>>
+
+    suspend fun search(
+        query: String,
+        reset: Boolean,
+    ) : Flow<Result<List<Photo>>>
 }

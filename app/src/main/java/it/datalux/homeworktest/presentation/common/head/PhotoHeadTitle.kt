@@ -51,7 +51,7 @@ fun PhotoHeadTitle(
             Text(
                 text = photo.description,
                 style = subtitleStyle,
-                maxLines = 1,
+                maxLines = maxLines,
                 overflow = TextOverflow.Ellipsis,
             )
         }

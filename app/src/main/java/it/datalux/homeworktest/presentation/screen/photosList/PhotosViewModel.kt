@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.datalux.homeworktest.domain.entity.Photo
 import it.datalux.homeworktest.domain.usecase.PhotosUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -25,30 +26,63 @@ open class PhotosViewModel @Inject constructor(
     val loading = _loading.asStateFlow()
 
 
+    private var _searchMode = MutableStateFlow(false)
+    val searchMode = _searchMode.asStateFlow()
+
+    private var currentQuery: String? = null
+    private var fetchJob: Job? = null
+
     init {
-        getPhotosList()
+        loadPhotos()
     }
 
-    fun getPhotosList(reset: Boolean = false) {
+    fun loadPhotos(query: String? = null, loadMore: Boolean = false) {
+        fetchJob?.cancel()
+
+        _searchMode.value = query != null
+
+        val isNewSearchOrInitialLoad = !loadMore
+        val queryToUse = query?.trim()
+
+        if (isNewSearchOrInitialLoad) {
+            currentQuery = queryToUse
+        }
+
         _loading.value = true
 
-        viewModelScope.launch {
-            photosUseCase.getPhotosList(reset = reset)
+        fetchJob = viewModelScope.launch {
+            val flowResult = if (currentQuery.isNullOrEmpty()) {
+                photosUseCase.getPhotosList(reset = isNewSearchOrInitialLoad)
+            } else {
+                photosUseCase.search(query = currentQuery!!, reset = isNewSearchOrInitialLoad)
+            }
+
+            flowResult
                 .catch { er ->
-                    Log.e("PhotosListViewModel:getPhotosList", "$er")
+                    Log.e("PhotosViewModel:loadPhotos", "Error loading photos (query: $currentQuery, loadMore: $loadMore): $er")
                     _loading.value = false
                 }
                 .collect { result ->
-                    val list = result.getOrDefault(emptyList())
+                    val newList = result.getOrDefault(emptyList())
 
-                    if (reset) {
+                    if (isNewSearchOrInitialLoad) {
                         photosList.clear()
                     }
 
-                    photosList.addAll(list)
+                    val existingIds = photosList.map { it.id }.toSet()
+                    photosList.addAll(newList.filterNot { existingIds.contains(it.id) })
 
                     _loading.value = false
                 }
+        }
+    }
+
+
+    fun onBackButtonClick() {
+        if (currentQuery != null) {
+            currentQuery = null
+            _searchMode.value = false
+            loadPhotos()
         }
     }
 }
