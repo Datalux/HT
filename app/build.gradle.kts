@@ -105,6 +105,7 @@ dependencies {
 
     // compose
     implementation(libs.compose)
+    testImplementation(kotlin("test"))
 
 }
 java {
