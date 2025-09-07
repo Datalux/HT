@@ -16,19 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val application: Application,
     val globalErrorHandler: GlobalErrorHandler
 ): ViewModel() {
-
-    init {
-        //checkHasInternetConnection()
-    }
-
-    private fun checkHasInternetConnection() {
-        if (!checkInternetConnection(application)) {
-            viewModelScope.launch { globalErrorHandler.notify(AppAlert.NetworkFailure) }
-        }
-    }
-
 
 }

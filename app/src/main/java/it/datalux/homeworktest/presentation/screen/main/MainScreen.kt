@@ -54,5 +54,5 @@ class MockApplication : Application()
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    MainScreen(MainViewModel(MockApplication(), GlobalErrorHandler()))
+    MainScreen(MainViewModel(GlobalErrorHandler()))
 }
