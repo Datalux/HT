@@ -7,6 +7,4 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     val globalErrorHandler: GlobalErrorHandler
-): ViewModel() {
-
-}
+): ViewModel()
