@@ -9,7 +9,9 @@ data class Photo(
     val photoUrl: String,
     val userName: String,
     val description: String,
-    val userPhotoUrl: String
+    val userPhotoUrl: String,
+    val width: Int,
+    val height: Int
 )
 
 val photoMock = Photo(
@@ -18,4 +20,6 @@ val photoMock = Photo(
     userName = "Nathan Anderson",
     description = "This is a cat for sure",
     userPhotoUrl = "",
+    width = 1080,
+    height = 720
 )

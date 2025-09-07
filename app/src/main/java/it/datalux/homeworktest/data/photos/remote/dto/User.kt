@@ -16,6 +16,6 @@ data class User(
     @SerialName("total_collections") val totalCollections: Int,
     @SerialName("instagram_username") val instagramUsername: String?,
     @SerialName("twitter_username") val twitterUsername: String?,
-    @SerialName("profile_image") val profileImage: ProfileImage,
+    @SerialName("profile_image") val profileImage: ProfileImage?,
     @SerialName("links") val links: UserLinks
 )

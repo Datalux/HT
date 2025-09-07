@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import it.datalux.homeworktest.core.theme.HomeworkTestTheme
 import it.datalux.homeworktest.presentation.screen.main.MainScreen

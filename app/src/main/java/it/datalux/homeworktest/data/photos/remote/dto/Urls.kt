@@ -9,5 +9,6 @@ data class Urls(
     @SerialName("full") val full: String,
     @SerialName("regular") val regular: String,
     @SerialName("small") val small: String,
-    @SerialName("thumb") val thumb: String
+    @SerialName("thumb") val thumb: String,
+    @SerialName("small_s3") val smallS3: String? = null
 )

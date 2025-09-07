@@ -15,6 +15,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
+import it.datalux.homeworktest.R
 import it.datalux.homeworktest.core.theme.subtitleStyle
 import it.datalux.homeworktest.core.theme.titleStyle
 import it.datalux.homeworktest.domain.entity.Photo
@@ -37,7 +39,10 @@ fun PhotoHeadTitle(
             modifier = modifier.size(UIConstants.userPhotoIconSize).clip(CircleShape),
             contentScale = ContentScale.Crop,
             model = photo.userPhotoUrl,
-            contentDescription = photo.description
+            contentDescription = "Profile user photo",
+            loading = placeholder(R.drawable.thumb_icon),
+            failure = placeholder(R.drawable.thumb_icon)
+
         )
 
         Column(

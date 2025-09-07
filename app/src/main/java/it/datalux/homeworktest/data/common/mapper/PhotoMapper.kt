@@ -8,5 +8,7 @@ fun Photo.toPhotoEntity() = it.datalux.homeworktest.domain.entity.Photo(
     photoUrl = this.urls.regular,
     userName = this.user.name,
     description = this.description.toStringOrEmpty(),
-    userPhotoUrl = this.urls.small,
+    userPhotoUrl = this.user.profileImage?.large ?: "",
+    width = this.width,
+    height = this.height
 )
