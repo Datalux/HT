@@ -60,8 +60,7 @@ fun PhotoListContent(
         derivedStateOf {
             val totalItemsCount = listState.layoutInfo.totalItemsCount
             val lastVisibleItemIndex = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
-            lastVisibleItemIndex >= (totalItemsCount - 2) && !loading
-
+            totalItemsCount > 0 && lastVisibleItemIndex >= (totalItemsCount - 2) && !loading
         }
     }
 
