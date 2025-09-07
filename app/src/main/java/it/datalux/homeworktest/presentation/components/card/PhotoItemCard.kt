@@ -1,6 +1,7 @@
 package it.datalux.homeworktest.presentation.components.card
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -26,6 +27,9 @@ fun PhotoItemCard(
     photo: Photo,
     onPhotoClicked: () -> Unit = { }
 ) {
+
+    val aspectRatio = photo.width.toFloat() / photo.height.toFloat()
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.backgroundSecondary,
@@ -35,7 +39,9 @@ fun PhotoItemCard(
     ) {
         Column {
             GlideImage(
-                modifier = modifier.debounceClickable { onPhotoClicked() },
+                modifier = modifier
+                    .aspectRatio(aspectRatio)
+                    .debounceClickable { onPhotoClicked() },
                 model = photo.photoUrl,
                 contentScale = ContentScale.FillWidth,
                 contentDescription = "null",
