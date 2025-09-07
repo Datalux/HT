@@ -8,18 +8,16 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import it.datalux.homeworktest.presentation.navigation.NavigationGraph
-import it.datalux.homeworktest.core.utils.AppAlert
+import kotlinx.coroutines.flow.receiveAsFlow
 
 @Composable
 fun MainScreen(
-    mainViewModel: MainViewModel = hiltViewModel()
+    mainViewModel: MainViewModel = hiltViewModel(),
 ) {
     MainContent(mainViewModel)
 }
@@ -32,14 +30,12 @@ fun MainContent(
     val navController = rememberNavController()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val appAlert by mainViewModel.appAlert.collectAsState()
 
-    LaunchedEffect(appAlert) {
-        if (appAlert == AppAlert.Idle) return@LaunchedEffect
-
-        snackbarHostState.showSnackbar(appAlert.text, duration = SnackbarDuration.Short)
+    LaunchedEffect(mainViewModel.globalErrorHandler) {
+        mainViewModel.globalErrorHandler.errorEvents.receiveAsFlow().collect { alert ->
+            snackbarHostState.showSnackbar(alert.text, duration = SnackbarDuration.Short)
+        }
     }
-
 
     Scaffold(
         snackbarHost = {
@@ -58,5 +54,5 @@ class MockApplication : Application()
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    MainScreen(MainViewModel(MockApplication()))
+    MainScreen(MainViewModel(MockApplication(), GlobalErrorHandler()))
 }

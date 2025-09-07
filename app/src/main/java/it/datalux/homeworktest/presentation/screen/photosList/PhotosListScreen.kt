@@ -34,6 +34,8 @@ import it.datalux.homeworktest.presentation.common.UIConstants
 import it.datalux.homeworktest.presentation.common.bar.SearchBar
 import it.datalux.homeworktest.presentation.components.card.PhotoItemCard
 import it.datalux.homeworktest.presentation.components.loading.CenteredLoading
+import it.datalux.homeworktest.presentation.screen.main.GlobalErrorHandler
+import it.datalux.homeworktest.presentation.screen.main.MockApplication
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 
@@ -138,6 +140,10 @@ fun PhotoListContent(
 @Preview(showBackground = true)
 fun PhotoListScreenPreview() {
     PhotoListScreen(
-        PhotosViewModel(PhotosUseCase(PhotosMockRepositoryImpl()),)
+        PhotosViewModel(
+            application = MockApplication(),
+            photosUseCase = PhotosUseCase(PhotosMockRepositoryImpl()),
+            globalErrorHandler = GlobalErrorHandler()
+        )
     )
 }

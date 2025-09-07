@@ -1,12 +1,16 @@
 package it.datalux.homeworktest.presentation.screen.photosList
 
+import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import it.datalux.homeworktest.core.shared.checkInternetConnection
+import it.datalux.homeworktest.core.utils.AppAlert
 import it.datalux.homeworktest.domain.entity.Photo
 import it.datalux.homeworktest.domain.usecase.PhotosUseCase
+import it.datalux.homeworktest.presentation.screen.main.GlobalErrorHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class PhotosViewModel @Inject constructor(
+    private val application: Application,
     private val photosUseCase: PhotosUseCase,
+    val globalErrorHandler: GlobalErrorHandler
 ): ViewModel() {
 
     var photosList = mutableStateListOf<Photo>()
@@ -51,6 +57,10 @@ open class PhotosViewModel @Inject constructor(
         _loading.value = true
 
         fetchJob = viewModelScope.launch {
+            if (!checkInternetConnection(application)) {
+                globalErrorHandler.notify(AppAlert.NetworkFailure)
+            }
+
             val flowResult = if (currentQuery.isNullOrEmpty()) {
                 photosUseCase.getPhotosList(reset = isNewSearchOrInitialLoad)
             } else {
@@ -60,6 +70,8 @@ open class PhotosViewModel @Inject constructor(
             flowResult
                 .catch { er ->
                     Log.e("PhotosViewModel:loadPhotos", "Error loading photos (query: $currentQuery, loadMore: $loadMore): $er")
+                    globalErrorHandler.notify(AppAlert.ApiFailure)
+
                     _loading.value = false
                 }
                 .collect { result ->

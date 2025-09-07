@@ -8,11 +8,16 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import it.datalux.homeworktest.core.theme.HomeworkTestTheme
+import it.datalux.homeworktest.presentation.screen.main.GlobalErrorHandler
 import it.datalux.homeworktest.presentation.screen.main.MainScreen
 import it.datalux.homeworktest.presentation.screen.photosList.PhotosViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var globalErrorHandler: GlobalErrorHandler
 
     private val photosViewModel by viewModels<PhotosViewModel>()
 
