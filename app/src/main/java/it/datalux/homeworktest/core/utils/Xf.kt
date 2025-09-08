@@ -10,11 +10,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 
 fun String?.toStringOrEmpty() = this ?: ""
-fun Double?.toDoubleOrZero() = this ?: 0.0
-fun Int?.toIntOrZero() = this ?: 0
-fun Long?.toLongOrZero() = this ?: 0
-fun Int?.toIntOr(or: Int) = this ?: or
-fun Boolean?.toBooleanOrFalse() = this ?: false
 
 @Composable
 fun Modifier.debounceClickable(
