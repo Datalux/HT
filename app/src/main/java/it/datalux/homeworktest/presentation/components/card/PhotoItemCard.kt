@@ -44,7 +44,7 @@ fun PhotoItemCard(
                     .debounceClickable { onPhotoClicked() },
                 model = photo.photoUrl,
                 contentScale = ContentScale.FillWidth,
-                contentDescription = "null",
+                contentDescription = photo.description,
             )
 
             PhotoHeadTitle(photo = photo, maxLines = 1)

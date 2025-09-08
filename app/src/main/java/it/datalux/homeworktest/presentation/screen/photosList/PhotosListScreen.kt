@@ -19,6 +19,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +38,7 @@ import it.datalux.homeworktest.presentation.components.loading.CenteredLoading
 import it.datalux.homeworktest.presentation.screen.main.GlobalErrorHandler
 import it.datalux.homeworktest.presentation.screen.main.MockApplication
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.filter
 
 @Composable
@@ -56,6 +58,7 @@ fun PhotoListContent(
     val loading by photosListViewModel.loading.collectAsStateWithLifecycle()
     val searchMode by photosListViewModel.searchMode.collectAsStateWithLifecycle()
 
+    val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
 
     val shouldLoadMore = remember {
@@ -93,7 +96,13 @@ fun PhotoListContent(
                     top = UIConstants.paddingSmall,
                     end = UIConstants.paddingSmall
                 ),
-            onSearch = { photosListViewModel.loadPhotos(it) }
+            onSearch = {
+                photosListViewModel.loadPhotos(it)
+
+                coroutineScope.launch {
+                    listState.scrollToItem(0)
+                }
+            }
         )
 
         if (photosList.isNotEmpty()) {

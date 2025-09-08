@@ -75,7 +75,7 @@ fun SearchBar(
                 ),
                 keyboardActions = KeyboardActions(
                     onSearch = {
-                        onSearch(text)
+                        onSearch(text.trim())
                     }
                 )
             )

@@ -30,7 +30,11 @@ fun NavigationGraph(
             val photoDetail: Photo = backStackEntry.toRoute()
             PhotoDetailsScreen(
                 photo = photoDetail,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                }
             )
         }
     }
